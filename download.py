@@ -3,7 +3,7 @@ import subprocess
 
 def main():
     data = [x.split("\t") for x in open('./list').readlines()]
-    for item in data[:10]:
+    for item in data:
         subprocess.call(["youtube-dl", item[4],
                          '-o', os.path.join(item[0], "%s.mp3" % item[1]),
                          '-x',
