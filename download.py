@@ -27,7 +27,9 @@ def main():
 
     data = [x.split("\t") for x in open('./list').readlines()]
     for item in data:
-        if int(item[0]) <= set_id and int(item[1]) <= ver_id:
+        if int(item[0]) < set_id:
+            continue
+        if int(item[0]) == set_id and int(item[1]) <= ver_id:
             continue
         if not bool(item[5]): continue
         subprocess.call(["youtube-dl", item[4],
