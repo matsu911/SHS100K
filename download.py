@@ -22,6 +22,7 @@ def main():
     for item in data:
         if int(item[0]) <= set_id and int(item[1]) <= ver_id:
             continue
+        if not bool(item[5]): continue
         subprocess.call(["youtube-dl", item[4],
                          '-o', os.path.join('SHS100K-dataset', item[0], "%s.mp3" % item[1]),
                          '--sleep-interval', '60',
