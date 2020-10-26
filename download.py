@@ -5,18 +5,27 @@ import itertools
 def flatten(l):
     return list(itertools.chain.from_iterable(l))
 
+def comp(x, y):
+    a = cmp(x[0], y[0])
+    if a != 0:
+        return a
+    return cmp(x[1], y[1])
+
 def detect_latest():
     tmp = [[os.path.join(root, f) for f in files]
            for root, dirs, files in os.walk(top='SHS100K-dataset')]
     tmp = flatten(tmp)
     if len(tmp) == 0:
         return (0, 0)
+    tmp = [x.split("/")[1:] for x in tmp]
+    tmp = [(int(a), int(b[:-4])) for a,b in tmp]
     latest = sorted(tmp)[-1]
-    set_id, ver_id = latest.split("/")[1:]
-    return (int(set_id), int(ver_id[:-4]))
+    return latest
 
 def main():
     set_id, ver_id = detect_latest()
+    print(set_id, ver_id)
+    return
 
     data = [x.split("\t") for x in open('./list').readlines()]
     for item in data:
