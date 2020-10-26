@@ -24,8 +24,6 @@ def detect_latest():
 
 def main():
     set_id, ver_id = detect_latest()
-    print(set_id, ver_id)
-    return
 
     data = [x.split("\t") for x in open('./list').readlines()]
     for item in data:
