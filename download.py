@@ -2,6 +2,7 @@ import os
 import subprocess
 import itertools
 import time
+from google.cloud import error_reporting
 
 def flatten(l):
     return list(itertools.chain.from_iterable(l))
@@ -24,6 +25,7 @@ def detect_latest():
     return latest
 
 def main():
+    client = error_reporting.Client()
     set_id, ver_id = detect_latest()
 
     data = [x.split("\t") for x in open('./list').readlines()]
@@ -33,10 +35,13 @@ def main():
         if int(item[0]) == set_id and int(item[1]) <= ver_id:
             continue
         if not bool(item[5]): continue
-        subprocess.call(["youtube-dl", item[4],
-                         '-o', os.path.join('SHS100K-dataset', item[0], "%s.mp3" % item[1]),
-                         '-x',
-                         '--audio-format', 'mp3'])
+        try:
+            subprocess.check_call(["youtube-dl", item[4],
+                                   '-o', os.path.join('SHS100K-dataset', item[0], "%s.mp3" % item[1]),
+                                   '-x',
+                                   '--audio-format', 'mp3'])
+        except Exception:
+            client.report_exception()
         time.sleep(60)
 
 
