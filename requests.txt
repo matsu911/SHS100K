@@ -1,0 +1,2 @@
+google-cloud-error-reporting==1.0.0
+tqdm==4.51.0
