@@ -3,6 +3,7 @@ import subprocess
 import itertools
 import time
 from google.cloud import error_reporting
+from tqdm import tqdm
 
 def flatten(l):
     return list(itertools.chain.from_iterable(l))
@@ -29,7 +30,7 @@ def main():
     set_id, ver_id = detect_latest()
 
     data = [x.split("\t") for x in open('./list').readlines()]
-    for item in data:
+    for item in tqdm(data):
         if int(item[0]) < set_id:
             continue
         if int(item[0]) == set_id and int(item[1]) <= ver_id:
