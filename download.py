@@ -25,7 +25,6 @@ def detect_latest():
     return latest
 
 def main():
-    client = error_reporting.Client()
     set_id, ver_id = detect_latest()
 
     data = [x.split("\t") for x in open('./list').readlines()]
