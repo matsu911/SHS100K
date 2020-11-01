@@ -1,4 +1,4 @@
-import os
+import os, sys
 import subprocess
 import itertools
 import time
@@ -25,16 +25,22 @@ def detect_latest():
     return latest
 
 def main():
+    N = int(sys.argv[1])
+    n = int(sys.argv[2])
     set_id, ver_id = detect_latest()
 
     data = [x.split("\t") for x in open('./list').readlines()]
-    for item in tqdm(data):
+    N = len(data) // N
+    start = N * n
+    end = start + N
+    print(start, end)
+    for item in tqdm(data[start:end]):
         if int(item[0]) < set_id:
             continue
         if int(item[0]) == set_id and int(item[1]) <= ver_id:
             continue
         if not bool(item[5]): continue
-        subprocess.call(["youtube-dl", item[4],
+        subprocess.call(["youtube-dlc", item[4],
                          '-o', os.path.join('SHS100K-dataset', item[0], "%s.mp3" % item[1]),
                          '-x',
                          '--audio-format', 'mp3'])
